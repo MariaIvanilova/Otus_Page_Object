@@ -41,6 +41,7 @@ class MainPage(BasePage):
     def main_page_add_product_to_cart(self):
         self.wait_title("Your Store")
         self.action_chains_click(self.ADD_BUTTON)
+        time.sleep(1)
         self.scroll_to_up()  # scroll to up
         time.sleep(5)  # waiting for disappearing alert window
         self.action_chains_click(self.SHOPPING_CART)
