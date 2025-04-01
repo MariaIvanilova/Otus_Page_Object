@@ -1,3 +1,4 @@
+import allure
 from selenium.webdriver.common.by import By
 from base_page import BasePage
 import time
@@ -24,6 +25,7 @@ class MainPage(BasePage):
     CURRENCY = (By.CSS_SELECTOR, "form>.dropdown>a>.d-none.d-md-inline")
     EURO = (By.CSS_SELECTOR, "a[href='EUR']")
 
+    @allure.step("Получить список элементов на странице Main")
     def main_page_elements(self):
         checking_elements = [
             self.LOGO,
@@ -35,22 +37,30 @@ class MainPage(BasePage):
         self.wait_title("Your Store")
         return self.is_elements_list_present(checking_elements)
 
+    @allure.step("Получить название продукта с главной страницы")
     def main_page_get_description_product(self):
         return self.get_text(self.DESCRIPTION_ITEM)
 
+    @allure.step(
+        "Добавить продукт в корзину, вернуть название добавленного продукта в корзине"
+    )
     def main_page_add_product_to_cart(self):
         self.wait_title("Your Store")
         self.action_chains_click(self.ADD_BUTTON)
         time.sleep(1)
-        self.scroll_to_up()  # scroll to up
-        time.sleep(5)  # waiting for disappearing alert window
+        self.scroll_to_up()
+        time.sleep(6)  # waiting for disappearing alert window
         self.action_chains_click(self.SHOPPING_CART)
         return self.get_text(self.SHOPPING_CART_TEXT_ELEMENT)
 
+    @allure.step("Получить цену продукта")
     def main_get_price(self):
         self.wait_title("Your Store")
+        # self.browser.refresh()
+        self.wait_element(self.PRICE, timeout=3)
         return self.get_text(self.PRICE)
 
+    @allure.step("Изменить валюту")
     def main_change_currency(self):
         header = HeaderElement(self.browser, self.url)
         header.header_change_currency_eur()

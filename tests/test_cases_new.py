@@ -1,3 +1,5 @@
+import allure
+
 from element_objects.header import HeaderElement
 from page_objects.administration_page import AdministrationPage
 from page_objects.administration_products_page import ProductsPage
@@ -7,6 +9,7 @@ import helpers
 test_product = "Test"
 
 
+@allure.title("Тест добавление нового продукта")
 def test_administration_add_new_product(browser, url):
     administration_url = url + "administration"
     administration_page = AdministrationPage(browser, url=administration_url)
@@ -28,6 +31,7 @@ def test_administration_add_new_product(browser, url):
     )
 
 
+@allure.title("Тест удаление добавленного продукта")
 def test_administration_delete_product(browser, url):
     administration_url = url + "administration"
     administration_page = AdministrationPage(browser, url=administration_url)
@@ -41,6 +45,7 @@ def test_administration_delete_product(browser, url):
     assert products.products_delete_product() == "No results!"
 
 
+@allure.title("Регистрация нового пользователя")
 def test_registration_new_user(browser, url):
     user_information = helpers.user_registration_information()
 
@@ -52,6 +57,7 @@ def test_registration_new_user(browser, url):
     assert registration_page.wait_title("Your Account Has Been Created!")
 
 
+@allure.title("Тест переключение валют из верхнего меню opencart")
 def test_change_currency(browser, url):
     header_element = HeaderElement(browser, url)
     header_element.open_page()

@@ -1,9 +1,12 @@
 import pytest
 import os
+import datetime
 from selenium import webdriver
 from selenium.webdriver.chrome.service import Service
+import logging
 
-default_url = "http://192.168.100.12:8081/"
+default_url = "http://192.168.100.4:8081/"
+log_level = "DEBUG"
 
 
 def pytest_addoption(parser):
@@ -13,6 +16,14 @@ def pytest_addoption(parser):
 
 @pytest.fixture
 def browser(request):
+    logger = logging.getLogger(request.node.name)
+    file_handler = logging.FileHandler(f"logs/{request.node.name}.log")
+    file_handler.setFormatter(logging.Formatter("%(levelname)s %(message)s"))
+    logger.addHandler(file_handler)
+    logger.setLevel(level=log_level)
+    logger.info("===> Test started at %s" % datetime.datetime.now())
+    logger.info("===> Test name: %s" % request.node.name)
+
     browser_name = request.config.getoption("browser")
     driver = None
     if browser_name in ["chrome", "ch"]:
@@ -30,6 +41,9 @@ def browser(request):
         driver = webdriver.Chrome(service=service, options=options)
 
     driver.maximize_window()
+
+    driver.logger = logger
+
     yield driver
     driver.quit()
 

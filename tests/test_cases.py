@@ -1,8 +1,11 @@
+import allure
+
 from page_objects.administration_page import AdministrationPage
 from page_objects.catalog_page import CatalogPage
 from page_objects.main_page import MainPage
 
 
+@allure.title("Страница 'Administration'. Тест логин и выход из аккаунта")
 def test_administration_login_logout(browser, url):
     administration_url = url + "administration"
     administration_page = AdministrationPage(browser, url=administration_url)
@@ -15,6 +18,7 @@ def test_administration_login_logout(browser, url):
     )
 
 
+@allure.title("Тест добавления продукта в корзину с главной страницы")
 def test_main_page_add_to_cart(browser, url):
     main_page = MainPage(browser, url)
 
@@ -27,6 +31,7 @@ def test_main_page_add_to_cart(browser, url):
     )
 
 
+@allure.title("Тест изменения цены при изменении валюты с главной страницы")
 def test_main_page_change_currency(browser, url):
     main_page = MainPage(browser, url)
 
@@ -39,6 +44,7 @@ def test_main_page_change_currency(browser, url):
     )
 
 
+@allure.title("Тест изменения цены при изменении валюты на странице каталога")
 def test_catalog_page_change_currency(browser, url):
     catalog_url = url + "catalog/desktops"
     catalog_page = CatalogPage(browser, url=catalog_url)

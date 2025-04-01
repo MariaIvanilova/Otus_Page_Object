@@ -1,4 +1,6 @@
 import time
+
+import allure
 from selenium.webdriver.common.by import By
 from base_page import BasePage
 
@@ -24,12 +26,14 @@ class ProductsPage(BasePage):
 
     LIST = (By.CSS_SELECTOR, "tbody>tr>td.text-center")
 
+    @allure.step("Кликнуть добавить новый продукт")
     def products_click_add_new_item(self):
         self.wait_element(self.ADD_NEW_PRODUCT)
         self.click_to_element(self.ADD_NEW_PRODUCT)
         self.wait_element(self.HEADER_ADD_PRODUCT, timeout=2)
         return self.get_text(self.HEADER_ADD_PRODUCT)
 
+    @allure.step("Добавить новый продукт")
     def products_add_new_product(self, product_name):
         self.input_value_to_field(self.PRODUCT_NAME, product_name)
         self.scroll_to_element(self.META_TAG_TITLE)
@@ -43,6 +47,7 @@ class ProductsPage(BasePage):
         self.input_value_to_field(self.KEY_WORD, "test_key_word")
         self.click_to_element(self.SAVE_BUTTON)
 
+    @allure.step("Найти продукт по имени")
     def products_find_by_name(self, product_name):
         self.wait_element(self.FILTER_NAME_PRODUCT)
         self.input_value_to_field(self.FILTER_NAME_PRODUCT, product_name)
@@ -50,10 +55,12 @@ class ProductsPage(BasePage):
         self.wait_text(self.NAME_PRODUCT_IN_FINDING, product_name)
         return self.get_text(self.NAME_PRODUCT_IN_FINDING)
 
+    @allure.step("Выделить продукт (нажать чек-бокс)")
     def products_select_check_box(self):
         self.wait_element(self.CHECK_BOX_PRODUCT)
         self.click_to_element(self.CHECK_BOX_PRODUCT)
 
+    @allure.step("Удалить продукт")
     def products_delete_product(self):
         self.click_to_element(self.DELETE_BUTTON)
         self.alert_confirm()
