@@ -1,3 +1,4 @@
+import allure
 from selenium.webdriver.common.by import By
 from base_page import BasePage
 
@@ -9,6 +10,9 @@ class ProductPage(BasePage):
     ADD_TO_CART_BUTTON = (By.ID, "button-cart")
     QUANTITY = (By.ID, "input-quantity")
 
+    @allure.step(
+        "Получить список элементов на странице продукта (Samsung Galaxy Tab 10.1)"
+    )
     def product_page_elements(self):
         checking_elements = [
             self.PRODUCT_PHOTOS,

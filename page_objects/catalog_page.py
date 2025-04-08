@@ -1,3 +1,4 @@
+import allure
 from selenium.webdriver.common.by import By
 from base_page import BasePage
 from element_objects.header import HeaderElement
@@ -15,6 +16,7 @@ class CatalogPage(BasePage):
     CURRENCY = (By.CSS_SELECTOR, "form>.dropdown>a>.d-none.d-md-inline")
     EURO = (By.CSS_SELECTOR, "a[href='EUR']")
 
+    @allure.step("Получить список элементов на странице Каталога (Desktops)")
     def catalog_desktops_elements(self):
         checking_elements = [
             self.PRODUCT_COMPARE,
@@ -27,23 +29,14 @@ class CatalogPage(BasePage):
         self.wait_title("Desktops")
         return self.is_elements_list_present(checking_elements)
 
-    def catalog_desktop_change_currency(self):
-        self.wait_title("Desktops")
-
-        price_first = self.get_text(self.PRICE)
-
-        self.click_to_element(self.CURRENCY)
-        self.click_to_element(self.EURO)
-
-        price_second = self.get_text(self.PRICE)
-        assert price_first != price_second, (
-            f"price should be changed, initial price {price_first}, price after changing {price_second}"
-        )
-
+    @allure.step("Получить цену продукта")
     def catalog_get_price(self):
         self.wait_title("Desktops")
+        # self.browser.refresh()
+        self.wait_element(self.PRICE, timeout=3)
         return self.get_text(self.PRICE)
 
+    @allure.step("Поменять валюту")
     def catalog_change_currency(self):
         header = HeaderElement(self.browser, self.url)
         header.header_change_currency_gbp()
